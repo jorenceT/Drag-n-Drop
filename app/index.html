@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+  <html>
+    <head>
+      <meta charset="UTF-8">
+      <title>Hello World!</title>
+      <link rel="stylesheet" type="text/css" href="css/main.css">
+    </head>
+    <body><div class="maindiv">
+    	<div class="area">
+    <div id="dropZone">Drop files here</div>
+</div>
+</div>
+  
+  <script>
+    document.addEventListener('drop', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      for (let f of e.dataTransfer.files) {
+        console.log('File(s) you dragged here: ', f.path)
+        console.log('File(s) you dragged here: ', f.name)
+        console.log('File(s) you dragged here: ', f.extentions)
+        console.log('File(s) you dragged here: ', f.lastModifiedDate)
+        console.log('File(s) you dragged here: ', f)
+        if(f.type == ''){
+        	console.log('json file detected')
+        }
+      }
+    });
+    document.addEventListener('dragover', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    });
+  </script>
+    </body>
+  </html>
