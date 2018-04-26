@@ -1,36 +1,19 @@
 <!DOCTYPE html>
-  <html>
-    <head>
-      <meta charset="UTF-8">
-      <title>Hello World!</title>
-      <link rel="stylesheet" type="text/css" href="css/main.css">
-    </head>
-    <body><div class="maindiv">
-    	<div class="area">
-    <div id="dropZone">Drop files here</div>
-</div>
-</div>
-  
-  <script>
-    document.addEventListener('drop', function (e) {
-      e.preventDefault();
-      e.stopPropagation();
-      
-      for (let f of e.dataTransfer.files) {
-        console.log('File(s) you dragged here: ', f.path)
-        console.log('File(s) you dragged here: ', f.name)
-        console.log('File(s) you dragged here: ', f.extentions)
-        console.log('File(s) you dragged here: ', f.lastModifiedDate)
-        console.log('File(s) you dragged here: ', f)
-        if(f.type == ''){
-        	console.log('json file detected')
-        }
-      }
-    });
-    document.addEventListener('dragover', function (e) {
-      e.preventDefault();
-      e.stopPropagation();
-    });
-  </script>
-    </body>
-  </html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Hello World!</title>
+  </head>
+  <body>
+    <h1>Hello World!</h1>
+    <!-- All of the Node.js APIs are available in this renderer process. -->
+    We are using Node.js <script>document.write(process.versions.node)</script>,
+    Chromium <script>document.write(process.versions.chrome)</script>,
+    and Electron <script>document.write(process.versions.electron)</script>.
+
+    <script>
+      // You can also require other files to run in this process
+      require('./renderer.js')
+    </script>
+  </body>
+</html>
