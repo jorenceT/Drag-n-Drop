@@ -48,10 +48,13 @@ var elList = document.getElementById('list');
       // elList.innerHTML = fname;
       // elList.appendChild('</li>')
     // var candidate = document.getElementById("fname");
+    var fnameb=fname+"b"
     var li = document.createElement("li");
     var input = document.createElement("input");
     input.type= "checkbox";
+    input.click="clicked(fname)"
     // var cb = document.createElement("span");
+    li.setAttribute('id',fnameb);
     input.setAttribute('id',fname);
     li.appendChild(document.createTextNode(fname));
     li.appendChild(input);
@@ -60,6 +63,12 @@ var elList = document.getElementById('list');
 
      }
     
+function clicked(name)
+{
+
+}
+
+
      function inititial(batchfilen) {
   
   for (var fname in batchfilen) {
