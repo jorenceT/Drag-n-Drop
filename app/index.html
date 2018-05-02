@@ -8,8 +8,9 @@
     </head>
     <body><div>
     <div class="maindiv" id="dropZone">Drop files here</div>
-    <div><input style="margin-top:5%"/></div>
+    <div><input style="margin-top:3%"/></div>
     <input placeholder="Path" id="first_name" type="text" class="validate"/>
+    <input type="button" class="btn btn-success" value="save" id="save"/><span class="load"><input class="btn btn-success"  type="button" value="Load" id="load"/></span>
     
     <ul class="collection" id="list"></ul>
    
@@ -23,6 +24,10 @@ var batchfilep=[];
 
 var elList = document.getElementById('list');
 var li;
+var savev=document.getElementById('save')
+var loadv=document.getElementById('load')
+savev.addEventListener('click',saveer);
+loadv.addEventListener('click',loader);
 
     document.addEventListener('drop', function (e) {
       e.preventDefault();
@@ -78,12 +83,22 @@ var li;
 
 
 
-     function inititial(batchfilen) {
-  
-  for (var fname in batchfilen) {
-    elList.innerHTML += fname;
-  }
-}
+     function loader() {
+    // console.log(batchfilen);
+  // for (var fname in batchfilen) {
+  //   elList.innerHTML += fname;
+  // }
+       }
+
+      function saveer()
+      {
+       
+       
+        // var storebp=JSON.stringify(batchfilep);
+      console.log("saved");
+        localStorage.setItem('storen', JSON.stringify(batchfilen));
+         localStorage.setItem('storep',JSON.stringify(batchfilep));
+      }
 
 
     document.addEventListener('dragover', function (e) {
