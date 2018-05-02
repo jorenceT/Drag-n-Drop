@@ -3,13 +3,13 @@
     <head>
       <meta charset="UTF-8">
       <title>Hello World!</title>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
       <link rel="stylesheet" type="text/css" href="css/main.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
     </head>
     <body><div>
     <div class="maindiv" id="dropZone">Drop files here</div>
-    <div><input class="toptext" type="text" placeholder="Give the path"></div>
-    <input placeholder="Placeholder" id="first_name" type="text" class="validate">
+    <div><input style="margin-top:5%"/></div>
+    <input placeholder="Path" id="first_name" type="text" class="validate"/>
     
     <ul class="collection" id="list"></ul>
    
@@ -31,6 +31,7 @@ var li;
       for (let f of e.dataTransfer.files) {
         batchfilen.push(f.name)
         batchfilep.push(f.path)
+        document.getElementById("first_name").value = f.path;
         console.log(batchfilen)
         // tablefomer(batchfiles);
         display(f.name);
