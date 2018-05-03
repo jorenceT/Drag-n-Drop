@@ -10,7 +10,10 @@
     <div class="maindiv" id="dropZone">Drop files here</div>
     <div><input style="margin-top:3%"/></div>
     <input placeholder="Path" id="first_name" type="text" class="validate"/>
-    <input type="button" class="btn btn-success" value="save" id="save"/><span class="load"><input class="btn btn-success"  type="button" value="Load" id="load"/></span>
+    <input type="button" class="btn btn-success" value="save" id="save"/>
+    <span class="load"><input class="btn btn-success"  type="button" value="Load" id="load"/>
+      <input class="btn btn-success"  type="button" value="delete" id="delete"/>
+    </span>
     
     <ul class="collection" id="list"></ul>
    
@@ -21,25 +24,31 @@
 
 var batchfilen=[];
 var batchfilep=[];
-
+var active=[];
 var elList = document.getElementById('list');
 var li;
 var savev=document.getElementById('save')
 var loadv=document.getElementById('load')
+var deletev=document.getElementById('delete')
+
 savev.addEventListener('click',saveer);
 loadv.addEventListener('click',loader);
-
+deletev.addEventListener('click',deletes);
     document.addEventListener('drop', function (e) {
       e.preventDefault();
       e.stopPropagation();
       
       for (let f of e.dataTransfer.files) {
-        batchfilen.push(f.name)
-        batchfilep.push(f.path)
-        document.getElementById("first_name").value = f.path;
-        console.log(batchfilen)
-        // tablefomer(batchfiles);
-        display(f.name);
+      
+              if((batchfilen.filter(k=>k==f.name).length)==0)
+              {
+                starter(f);
+              }
+              else{
+                alert("the file is alredy present");
+              }
+           
+       
         // console.log('File(s) you dragged here: ', f.path)
         // console.log('File(s) you dragged here: ', f.name)
         // console.log('File(s) you dragged here: ', f.extentions)
@@ -48,58 +57,117 @@ loadv.addEventListener('click',loader);
         // if(f.type == ''){
         // 	console.log(batchfiles)
         // }
-
       }
     });
+    function starter(f)
+    {
+      batchfilen.push(f.name)
+        batchfilep.push(f.path)
+        document.getElementById("first_name").value = f.path;
+        console.log(batchfilen)
+        // tablefomer(batchfiles);
+        
+        display(f.name);
+    }
+
+
     function display(fname) {
       // elList.appendChild('<li id="innerlist">');
       // elList.innerHTML = fname;
       // elList.appendChild('</li>')
     // var candidate = document.getElementById("fname");
     // var fnameb=fname+"b"
+   
     var li = document.createElement("li");    
     li.className = 'collection-item';
     // var input = document.createElement("input");
     // input.type= "checkbox";
      li.addEventListener('click', ()=> {
-       if(li.className == 'collection-item active')
-        li.className = 'collection-item';
-      else
-      li.className += ' active'; 
-
+            if(li.className == 'collection-item active')
+            {
+              li.className = 'collection-item';
+              active.pop(li.id)
+            }
+            else
+            {
+            li.className += ' active';
+            active.push(li.id);
+            }
+          console.log(active);
       });
-    // input.classname = 'check';
-    // var cb = document.createElement("span");
-    // li.setAttribute('id',fnameb);
-    li.setAttribute('id',fname);
-    li.appendChild(document.createTextNode(fname));
-    // li.appendChild(input);
-    elList.appendChild(li);
-    // elList.appendChild(cb);
-     
+      li.setAttribute('id',fname);
+      li.appendChild(document.createTextNode(fname));
+      elList.appendChild(li);
      }
-    
-    
+    function setactive(batchfile){
+     
+        //  var lis = document.querySelector(batchfile);
+         console.log('#'+batchfile);
+            // if(lis.className == 'collection-item active')
+            //      {
+            //        lis.className = 'collection-item';
+            //       active.pop(lis.id)
+            //      }
+            var lis;
+                 if((active.filter(k=>k==batchfile)).length > 0)
+                 {
+                  lis=document.getElementById(batchfile);
+                  console.log(lis);
+                  lis.className = 'collection-item active';
+                 }
+            // else
+            // {
+            //       lis.className += ' active';
+            //       active.push(lis.id);
+            // }
+
+         
+    }
 
 
 
-     function loader() {
-    // console.log(batchfilen);
-  // for (var fname in batchfilen) {
-  //   elList.innerHTML += fname;
-  // }
-       }
-
+    function loader() {
+      document.getElementById("list").innerHTML = "";
+      batchfilen=JSON.parse(localStorage.storen);
+      batchfilep=JSON.parse(localStorage.storep);
+      active=JSON.parse(localStorage.activ);
+      for(i=0;i<batchfilen.length;i++)
+        {
+          display(batchfilen[i]);
+          setactive(batchfilen[i]);
+        }
+       
+      console.log(batchfilen);
+    }
+      
       function saveer()
-      {
-       
-       
-        // var storebp=JSON.stringify(batchfilep);
-      console.log("saved");
+      {// var storebp=JSON.stringify(batchfilep);
+        console.log("saved");
         localStorage.setItem('storen', JSON.stringify(batchfilen));
-         localStorage.setItem('storep',JSON.stringify(batchfilep));
+        localStorage.setItem('storep',JSON.stringify(batchfilep));
+        localStorage.setItem('activ',JSON.stringify(active));
       }
-
+      function deletes()
+      {// var storebp=JSON.stringify(batchfilep);
+        console.log("delete called");
+        for(i=0;i<active.length;i++)
+        {
+          for(j=0;j<batchfilen.length;j++)
+          {
+            if(active[i]==batchfilen[j])
+            {
+              batchfilen=batchfilen.filter(a=>a!=batchfilen[j])
+              active=active.filter(a=>a!=active[i])
+              batchfilep=batchfilep.filter(a=>a!=batchfilep[j])
+            }
+          }
+        }
+        localStorage.setItem('storen', JSON.stringify(batchfilen));
+        localStorage.setItem('storep',JSON.stringify(batchfilep));
+        localStorage.setItem('activ',JSON.stringify(active));
+        console.log("deleted");
+        loader();
+      }
 
     document.addEventListener('dragover', function (e) {
       e.preventDefault();
